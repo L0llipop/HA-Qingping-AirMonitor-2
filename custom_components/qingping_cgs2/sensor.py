@@ -76,8 +76,8 @@ class QingpingSensor(RestoreSensor):
                     if not sensor_data_list:
                         return
                         
-                    payload["sensorData"].sort(key=lambda x: x["timestamp"]["value"], reverse=True)
-                    latest_data = latest_data[0]
+                    sensor_data_list.sort(key=lambda x: x["timestamp"]["value"], reverse=True)
+                    latest_data = sensor_data_list[0]
 
                     
                     if self._sensor_key == "power_mode":
