@@ -55,7 +55,9 @@ class QingpingBinarySensor(RestoreEntity, BinarySensorEntity):
                     self.hass.async_create_task(mqtt.async_publish(self.hass, topic_down, ack_payload))
                 
                 if msg_type in ["12", "17"] and "sensorData" in payload:
-                    latest_data = payload["sensorData"][-1] if msg_type == "17" else payload["sensorData"][0]
+                    payload["sensorData"].sort(key=lambda x: x["timestamp"]["value"], reverse=True)
+                    latest_data = payload["sensorData"][0]
+                    
                     bat_data = latest_data.get("battery", {})
                     status = bat_data.get("status")
                     level = bat_data.get("value")
