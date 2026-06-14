@@ -76,7 +76,9 @@ class QingpingSensor(RestoreSensor):
                     if not sensor_data_list:
                         return
                         
-                    latest_data = sensor_data_list[-1] if msg_type == "17" else sensor_data_list[0]
+                    payload["sensorData"].sort(key=lambda x: x["timestamp"]["value"], reverse=True)
+                    latest_data = latest_data[0]
+
                     
                     if self._sensor_key == "power_mode":
                         status = latest_data.get("battery", {}).get("status")
